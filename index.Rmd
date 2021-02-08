@@ -1,0 +1,81 @@
+---
+title: "California Current IEA"
+output: 
+  flexdashboard::flex_dashboard:
+    vertical_layout: scroll
+---
+
+```{r setup, include=FALSE}
+if (!require(librarian)){
+  install.packages("librarian")
+  library(librarian)
+}
+shelf(marinebon/ecoidx, flexdashboard, plotly, emojifont)
+# devtools::load_all("../ecoidx")
+# devtools::install_local("../ecoidx", force = T)
+
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+icons <- list(
+  recent_trend = list(
+    "→" =   0,
+    "↗" =  45,
+    "↘" = -45),
+  recent_avg = list(
+    "o" = "fa-dot-circle-o",
+    "+" = "fa-plus-circle",
+    "-" = "fa-minus-circle"))
+```
+
+# Climatological {data-orientation=rows}
+
+## Row {data-height=300}
+    
+### Time series 1 {data-width=800}
+    
+```{r}
+g <- plot_ts(ts1, add_icons = F, font_size = 18)
+ggplotly(g)
+```
+
+### Time series 1 Performance {data-width=200}
+    
+```{r}
+caption      <-  attr(g, "caption")
+recent_trend <-  attr(g, "recent_trend")
+recent_avg   <-  attr(g, "recent_avg")
+icon_recent_avg <- icons[["recent_avg"]][[recent_avg]]
+
+performance <- 91 # TODO: pick non-arbitrary value
+gauge(performance, min = 0, max = 100, symbol = '%', gaugeSectors(
+  success = c(80, 100), warning = c(40, 79), danger = c(0, 39)
+))
+```
+<div style="float:left; width: 20px; height: 40px; margin: 5px;">
+  <i class="fa fa-arrow-circle-right"></i>
+
+  <i class="fa `r icon_recent_avg`"></i>
+</div>
+
+`r caption`
+ 
+## Row {data-height=300}
+
+### Time series 2
+
+```{r}
+```   
+ 
+## Row {data-height=200}
+
+### Time series 3
+    
+```{r}
+```
+
+# Physical-chemical
+
+# Biological
+
+# Human Dimension
+
+
